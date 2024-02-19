@@ -1,60 +1,17 @@
-body#homePage header {
+body header {
   background-color: #1d2027;
   padding: 1rem 0;
   text-align: center;
 }
-body#homePage header h1 {
+body header h1 {
   color: #ebcb8b;
 }
-body#homePage nav {
+body nav {
   background-color: #2e3440;
   padding: 0.5rem 0;
   text-align: center;
 }
-body#homePage nav a {
-  color: #d8dee9;
-  text-decoration: none;
-  margin: 0 0.75rem;
-}
-
-body#contact header {
-  background-color: #1d2027;
-  padding: 1rem 0;
-  text-align: center;
-}
-body#contact header h1 {
-  color: #ebcb8b;
-}
-body#contact nav {
-  background-color: #2e3440;
-  padding: 0.5rem 0;
-  text-align: center;
-}
-body#contact nav a {
-  color: #d8dee9;
-  text-decoration: none;
-  margin: 0 0.75rem;
-}
-body#contact main {
-  margin: auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-body#about header {
-  background-color: #1d2027;
-  padding: 1rem 0;
-  text-align: center;
-}
-body#about header h1 {
-  color: #ebcb8b;
-}
-body#about nav {
-  background-color: #2e3440;
-  padding: 0.5rem 0;
-  text-align: center;
-}
-body#about nav a {
+body nav a {
   color: #d8dee9;
   text-decoration: none;
   margin: 0 0.75rem;
@@ -71,14 +28,6 @@ body#homePage main {
   margin: auto;
   padding: 2rem;
   text-align: center;
-}
-@media only screen and (min-width: 768px) {
-  body#homePage nav {
-    padding: 1rem 0;
-  }
-  body#homePage nav a {
-    margin: 0 1rem;
-  }
 }
 
 body#contact {
@@ -135,14 +84,6 @@ body#contact main form button {
 body#contact main form button:hover {
   background-color: #3b4252;
 }
-@media only screen and (min-width: 48rem) {
-  body#contact nav {
-    padding: 1rem 0;
-  }
-  body#contact nav a {
-    margin: 0 1rem;
-  }
-}
 
 body#about {
   font-family: Arial, sans-serif;
@@ -155,11 +96,6 @@ body#about main {
   margin: auto;
   padding: 2rem;
   text-align: center;
-}
-body#about .about-section,
-body#about .skills-section,
-body#about .interests-section {
-  margin-bottom: 2rem;
 }
 
 body#homePage footer {

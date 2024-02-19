@@ -1,4 +1,4 @@
-body#homePage {
+body {
     header {
         background-color: #1d2027;
         padding: 1rem 0;
@@ -22,60 +22,14 @@ body#homePage {
     }
 }
 
-body#contact {
-    header {
-        background-color: #1d2027;
-        padding: 1rem 0;
-        text-align: center;
-    }
+// body#homePage {
 
-    header h1 {
-        color: #ebcb8b;
-    }
+// }
 
-    nav {
-        background-color: #2e3440;
-        padding: 0.5rem 0;
-        text-align: center;
-    }
+// body#about {
 
-    nav a {
-        color: #d8dee9;
-        text-decoration: none;
-        margin: 0 0.75rem;
-    }
+// }
 
-    main {
-        margin: auto;
-        padding: 2rem;
-        text-align: center;
-    }
+// body#contact {
 
-
-
-}
-
-body#about {
-    header {
-        background-color: #1d2027;
-        padding: 1rem 0;
-        text-align: center;
-    }
-
-    header h1 {
-        color: #ebcb8b;
-    }
-
-    nav {
-        background-color: #2e3440;
-        padding: 0.5rem 0;
-        text-align: center;
-    }
-
-    nav a {
-        color: #d8dee9;
-        text-decoration: none;
-        margin: 0 0.75rem;
-    }
-
-}
+// }

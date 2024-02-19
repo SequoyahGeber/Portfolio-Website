@@ -13,15 +13,7 @@ body#homePage {
     }
 
 
-    @media only screen and (min-width: 768px) {
-        nav {
-            padding: 1rem 0;
-        }
 
-        nav a {
-            margin: 0 1rem;
-        }
-    }
 }
 
 body#contact {
@@ -94,16 +86,6 @@ body#contact {
 
 
 
-    @media only screen and (min-width: 48rem) {
-        nav {
-            padding: 1rem 0;
-        }
-
-        nav a {
-            margin: 0 1rem;
-        }
-    }
-
 
 }
 
@@ -121,9 +103,7 @@ body#about {
         text-align: center;
     }
 
-    .about-section,
-    .skills-section,
-    .interests-section {
-        margin-bottom: 2rem;
-    }
+
+
+
 }
