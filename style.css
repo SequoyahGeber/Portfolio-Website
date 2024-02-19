@@ -1,0 +1,190 @@
+body#homePage header {
+  background-color: #1d2027;
+  padding: 1rem 0;
+  text-align: center;
+}
+body#homePage header h1 {
+  color: #ebcb8b;
+}
+body#homePage nav {
+  background-color: #2e3440;
+  padding: 0.5rem 0;
+  text-align: center;
+}
+body#homePage nav a {
+  color: #d8dee9;
+  text-decoration: none;
+  margin: 0 0.75rem;
+}
+
+body#contact header {
+  background-color: #1d2027;
+  padding: 1rem 0;
+  text-align: center;
+}
+body#contact header h1 {
+  color: #ebcb8b;
+}
+body#contact nav {
+  background-color: #2e3440;
+  padding: 0.5rem 0;
+  text-align: center;
+}
+body#contact nav a {
+  color: #d8dee9;
+  text-decoration: none;
+  margin: 0 0.75rem;
+}
+body#contact main {
+  margin: auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+body#about header {
+  background-color: #1d2027;
+  padding: 1rem 0;
+  text-align: center;
+}
+body#about header h1 {
+  color: #ebcb8b;
+}
+body#about nav {
+  background-color: #2e3440;
+  padding: 0.5rem 0;
+  text-align: center;
+}
+body#about nav a {
+  color: #d8dee9;
+  text-decoration: none;
+  margin: 0 0.75rem;
+}
+
+body#homePage {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #2e3440;
+  color: #d8dee9;
+}
+body#homePage main {
+  margin: auto;
+  padding: 2rem;
+  text-align: center;
+}
+@media only screen and (min-width: 768px) {
+  body#homePage nav {
+    padding: 1rem 0;
+  }
+  body#homePage nav a {
+    margin: 0 1rem;
+  }
+}
+
+body#contact {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #2e3440;
+  color: #d8dee9;
+}
+body#contact main {
+  margin: auto;
+  padding: 2rem;
+  text-align: center;
+}
+body#contact main form {
+  max-width: 30rem;
+  margin: 0 auto;
+}
+body#contact main form div#name {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+body#contact main form div#name input,
+body#contact main form div#name label {
+  display: block;
+  width: 100%;
+}
+body#contact main form div#name input {
+  grid-row: 2;
+}
+body#contact main form label {
+  margin-top: 1rem;
+  display: block;
+  font-weight: bold;
+}
+body#contact main form input,
+body#contact main form textarea {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #434c5e;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+}
+body#contact main form button {
+  background-color: #4c566a;
+  color: #d8dee9;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+body#contact main form button:hover {
+  background-color: #3b4252;
+}
+@media only screen and (min-width: 48rem) {
+  body#contact nav {
+    padding: 1rem 0;
+  }
+  body#contact nav a {
+    margin: 0 1rem;
+  }
+}
+
+body#about {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #2e3440;
+  color: #d8dee9;
+}
+body#about main {
+  margin: auto;
+  padding: 2rem;
+  text-align: center;
+}
+body#about .about-section,
+body#about .skills-section,
+body#about .interests-section {
+  margin-bottom: 2rem;
+}
+
+body#homePage footer {
+  background-color: #1d2027;
+  padding: 1rem 0;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+body#contact footer {
+  background-color: #1d2027;
+  padding: 1rem 0;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+body#about footer {
+  background-color: #1d2027;
+  padding: 1rem 0;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}/*# sourceMappingURL=style.css.map */

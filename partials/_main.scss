@@ -1,0 +1,129 @@
+body#homePage {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #2e3440;
+    color: #d8dee9;
+
+
+    main {
+        margin: auto;
+        padding: 2rem;
+        text-align: center;
+    }
+
+
+    @media only screen and (min-width: 768px) {
+        nav {
+            padding: 1rem 0;
+        }
+
+        nav a {
+            margin: 0 1rem;
+        }
+    }
+}
+
+body#contact {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #2e3440;
+    color: #d8dee9;
+
+    main {
+        margin: auto;
+        padding: 2rem;
+        text-align: center;
+
+        form {
+            max-width: 30rem;
+            margin: 0 auto;
+
+            div#name {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+
+                input,
+                label {
+                    display: block;
+                    width: 100%;
+
+                }
+
+                input {
+                    grid-row: 2;
+                }
+            }
+
+            label {
+                margin-top: 1rem;
+                display: block;
+                font-weight: bold;
+            }
+
+            input,
+            textarea {
+                width: 100%;
+                padding: 1rem;
+                margin-top: 0.5rem;
+                margin-bottom: 1rem;
+                border: 1px solid #434c5e;
+                border-radius: 0.5rem;
+                box-sizing: border-box;
+            }
+
+            button {
+                background-color: #4c566a;
+                color: #d8dee9;
+                padding: 1rem 2rem;
+                border: none;
+                border-radius: 0.5rem;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background-color: #3b4252;
+            }
+        }
+    }
+
+
+
+
+
+
+
+    @media only screen and (min-width: 48rem) {
+        nav {
+            padding: 1rem 0;
+        }
+
+        nav a {
+            margin: 0 1rem;
+        }
+    }
+
+
+}
+
+
+body#about {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #2e3440;
+    color: #d8dee9;
+
+    main {
+        margin: auto;
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .about-section,
+    .skills-section,
+    .interests-section {
+        margin-bottom: 2rem;
+    }
+}
