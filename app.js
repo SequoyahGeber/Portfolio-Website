@@ -4,6 +4,8 @@ const cors = require("cors");
 const path = require("path");
 const sassMiddleware = require("node-sass-middleware");
 const { MongoClient, ObjectId } = require("mongodb");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 app.use(cors());
 
@@ -26,6 +28,16 @@ app.use(
 app.use(express.static("public"));
 
 app.use(express.json());
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // Use the original filename
+  },
+});
+const upload = multer({ storage: storage });
 
 // Define routes
 app.get("/", (req, res) => {
@@ -50,9 +62,20 @@ app.get("/update", (req, res) => {
 });
 
 app.get("/epub", function (req, res) {
-  // Assuming you have a variable containing the URL of the EPUB file
-  var epubURL = "/books/test2.epub";
+  var epubURL = "https://sequoyahgeber.com/books/test.epub";
   res.render("epub", { epubURL: epubURL });
+});
+
+app.get("/view-epub", (req, res) => {
+  const epubURL = req.query.epubURL; // Get the URL of the uploaded EPUB file
+  res.render("view-epub", { epubURL: epubURL });
+});
+
+app.post("/upload", upload.single("epubFile"), (req, res) => {
+  // Multer middleware will automatically process the uploaded file
+  // req.file contains information about the uploaded file
+  // You can save this file to a temporary directory or perform further processing
+  res.send("File uploaded successfully");
 });
 
 const uri = "mongodb://172.17.0.2:27017";
