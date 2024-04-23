@@ -1,0 +1,73 @@
+header {
+    background-color: $headerBackgroundColor;
+
+    @media only screen and (max-width: 1080px) {
+
+        text-align: center;
+
+    }
+
+    div#headerContent {
+        @media only screen and (min-width: 1280px) {
+
+            margin: auto;
+            max-width: 1280px;
+
+
+
+
+
+
+        }
+
+        text-align: left;
+        margin: 0;
+        padding: 2rem;
+
+        border-radius: 0 0 0.5rem 0.5rem;
+
+        h1 {
+            margin: 0;
+            padding: 0;
+
+            #nameAccent {
+                color: $accent1;
+            }
+        }
+
+        nav {
+            ul {
+                padding: 0;
+
+                list-style-type: none;
+
+                li {
+                    display: inline-block;
+                    padding: 0.5rem;
+                    color: $accent1;
+
+                    a {
+                        text-decoration: none;
+                        color: $accent1;
+                    }
+
+                    a:hover {
+                        background-color: #22334d;
+                        border-radius: 0.25rem;
+                        cursor: pointer;
+                    }
+
+                    a:active {
+                        color: #cfb06c;
+                    }
+                }
+
+
+            }
+        }
+
+    }
+
+
+
+}

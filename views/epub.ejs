@@ -1,0 +1,31 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+  <!-- Include EPUB.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
+</head>
+<body>
+  <header><%- include('partials/header') %></header>
+  <main>
+    <p>Welcome</p>
+    <h2>Book Below</h2>
+    <div id="viewer"></div>
+    <script>
+      // Assuming you have an element with id "viewer" where you want to render the EPUB
+      var viewer = document.getElementById("viewer");
+
+      // URL of the EPUB file (assuming you've set up your route to serve EPUB files)
+      var bookURL = "<%= epubURL %>";
+
+      // Create a new EPUBJS.Book instance
+      var book = ePub(bookURL);
+
+      // Render the book to the viewer element
+      book.renderTo(viewer);
+    </script>
+  </main>
+  <footer><%- include('partials/footer') %></footer>
+</body>

@@ -1,0 +1,12 @@
+footer {
+    margin: 0 auto;
+    text-align: center;
+    padding: 1rem;
+    position: sticky;
+    bottom: 0;
+    background-color: $headerBackgroundColor;
+
+    p {
+        margin: 0;
+    }
+}

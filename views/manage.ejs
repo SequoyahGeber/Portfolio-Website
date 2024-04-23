@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Posts</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+  </head>
+  <body id="manage">
+    <header><%- include('partials/header') %></header>
+    <main>
+      <div id="managePosts">
+        <h2>Create Post</h2>
+        <div id="createPost"><%- include('partials/blogTemplate') %></div>
+      </div>
+
+      <aside id="posts"><%- include('partials/renderBlogs') %></aside>
+    </main>
+    <footer><%- include('partials/footer') %></footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(addButtons, 250);
+
+        // Create Post
+        document
+          .getElementById("submitPost")
+          .addEventListener("click", (event) => {
+            event.preventDefault();
+            const title = document.getElementById("title").value;
+            const content = document.getElementById("content").value;
+
+            fetch("/createPost", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ title, content }),
+            })
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error("Network response was not ok");
+                }
+                return response;
+              })
+              .catch((error) => {
+                console.error("Error:", error);
+              });
+          });
+      });
+      function addButtons() {
+        const postElements = document.querySelectorAll(".post");
+
+        postElements.forEach((postElement) => {
+          const postId = postElement.id;
+          const postsDiv = document.createElement("div");
+
+          const updateButton = document.createElement("button");
+          updateButton.textContent = "Update";
+          updateButton.id = `${postId}-update`;
+
+          const deleteButton = document.createElement("button");
+          deleteButton.textContent = "Delete";
+          deleteButton.id = `${postId}-delete`;
+          deleteButton.classList.add("deleteButton");
+
+          postsDiv.appendChild(updateButton);
+          postsDiv.appendChild(deleteButton);
+          postElement.appendChild(postsDiv);
+
+          updateButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            let postId = event.srcElement.id;
+            postId = postId.endsWith("-update") ? postId.slice(0, -7) : postId;
+            postId = postId.startsWith('"') ? postId.slice(1) : postId;
+            postId = postId.endsWith('"') ? postId.slice(0, -1) : postId;
+            console.log(postId);
+            fetch(`/update?postId=${postId}`)
+              .then((response) => {
+                if (response.ok) {
+                  window.location.href = "/update";
+                } else {
+                  console.error("Failed to redirect to update page.");
+                }
+              })
+              .catch((error) => {
+                console.error("Error:", error);
+              });
+          });
+          deleteButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            let postId = event.srcElement.id;
+            postId = postId.endsWith("-delete") ? postId.slice(0, -7) : postId;
+            postId = postId.startsWith('"') ? postId.slice(1) : postId;
+            postId = postId.endsWith('"') ? postId.slice(0, -1) : postId;
+            console.log(postId);
+            fetch("/deletePost", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ postId }),
+            })
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error("Network response was not ok");
+                }
+                return response;
+              })
+              .catch((error) => {
+                console.error("Error:", error);
+              });
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
