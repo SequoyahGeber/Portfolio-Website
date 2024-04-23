@@ -2,10 +2,11 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const path = require("path");
+const fs = require("fs");
+
 const sassMiddleware = require("node-sass-middleware");
 const { MongoClient, ObjectId } = require("mongodb");
 const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
 
 app.use(cors());
 
@@ -30,13 +31,12 @@ app.use(express.static("public"));
 app.use(express.json());
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname); // Use the original filename
+  destination: "public/books/",
+  filename: function (req, file, callback) {
+    callback(null, file.originalname);
   },
 });
+
 const upload = multer({ storage: storage });
 
 // Define routes
@@ -62,20 +62,30 @@ app.get("/update", (req, res) => {
 });
 
 app.get("/epub", function (req, res) {
-  var epubURL = "https://sequoyahgeber.com/books/test.epub";
-  res.render("epub", { epubURL: epubURL });
+  // let fileName = 'test.epub';
+  // let epubURL = `https://sequoyahgeber.com/books/${fileName}`;
+  res.render("epub");
 });
 
-app.get("/view-epub", (req, res) => {
-  const epubURL = req.query.epubURL; // Get the URL of the uploaded EPUB file
-  res.render("view-epub", { epubURL: epubURL });
-});
+// app.get("/view-epub", (req, res) => {
+//   const epubURL = req.query.epubURL;
+//   res.render("view-epub", { epubURL: epubURL });
+// });
 
 app.post("/upload", upload.single("epubFile"), (req, res) => {
-  // Multer middleware will automatically process the uploaded file
-  // req.file contains information about the uploaded file
-  // You can save this file to a temporary directory or perform further processing
   res.send("File uploaded successfully");
+});
+
+app.get("/readFiles", (req, res) => {
+  const directoryPath = "public/books";
+  fs.readdir(directoryPath, (err, files) => {
+    if (err) {
+      console.error("Error reading directory:", err);
+      res.status(500).send("Error reading directory");
+    } else {
+      res.json(files);
+    }
+  });
 });
 
 const uri = "mongodb://172.17.0.2:27017";

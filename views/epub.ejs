@@ -13,6 +13,7 @@
   <header><%- include('partials/header') %></header>
   <main>
     <p>Welcome</p>
+    <div><%- include('partials/readFiles') %></div>
     <form action="/upload" method="post" enctype="multipart/form-data">
       <input type="file" name="epubFile" />
       <button type="submit">Upload</button>
@@ -23,4 +24,7 @@
     <%- include('partials/renderBook') %>
   </main>
   <footer><%- include('partials/footer') %></footer>
+  <script>
+   
+  </script>
 </body>

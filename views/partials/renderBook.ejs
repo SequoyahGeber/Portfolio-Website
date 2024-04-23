@@ -1,12 +1,14 @@
 <div id="viewer"></div>
 <script>
-  var viewer = document.getElementById("viewer");
-  var bookURL = "<%= epubURL %>";
-  var book = ePub(bookURL);
-  var rendition = book.renderTo("viewer", {
-    method: "default",
-    width: "100%",
-    height: "100%",
-  });
-  var displayed = rendition.display();
+  function renderBook(bookPath) {
+    let viewer = document.getElementById("viewer");
+    let bookURL = `https://sequoyahgeber.com/books/${bookPath}`;
+    let book = ePub(bookURL);
+    let rendition = book.renderTo("viewer", {
+      method: "default",
+      width: "100%",
+      height: "100%",
+    });
+    let displayed = rendition.display();
+  }
 </script>
