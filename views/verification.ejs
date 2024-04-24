@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body id="verification">
+    <main>
+      <h1>Login</h1>
+      <form id="loginForm">
+        <input
+          type="text"
+          id="email"
+          name="email"
+          placeholder="Email"
+          required
+        />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Password"
+          required
+        />
+        <button type="submit">Login</button>
+      </form>
+
+      <h1>Register</h1>
+      <form id="registerForm">
+        <input
+          type="email"
+          id="regEmail"
+          name="email"
+          placeholder="Email"
+          required
+        />
+        <input
+          type="password"
+          id="regPassword"
+          name="password"
+          placeholder="Password"
+          required
+        />
+        <button type="submit">Register</button>
+      </form>
+    </main>
+
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+
+          try {
+            const response = await fetch("/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email, password }),
+            });
+
+            if (!response.ok) {
+              const errorMessage = await response.text();
+              throw new Error(errorMessage);
+            }
+            window.location.href = "/manage";
+            alert("Login successful!");
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Login failed. Please try again.");
+          }
+        });
+
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+          const regEmail = document.getElementById("regEmail").value; // Get email value
+          const regPassword = document.getElementById("regPassword").value;
+
+          try {
+            const response = await fetch("/register", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: regEmail,
+                password: regPassword,
+              }),
+            });
+
+            if (!response.ok) {
+              const errorMessage = await response.text();
+              throw new Error(errorMessage);
+            }
+
+            alert("Registration successful!");
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Registration failed. Please try again.");
+          }
+        });
+    </script>
+  </body>
+</html>

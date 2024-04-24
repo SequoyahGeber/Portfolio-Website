@@ -2,16 +2,84 @@ header {
     background-color: $headerBackgroundColor;
 
     @media only screen and (max-width: 1080px) {
+        div {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            align-items: start;
 
-        text-align: center;
+            nav {
+                display: none;
+            }
 
-    }
 
-    div#headerContent {
-        @media only screen and (min-width: 1280px) {
 
-            margin: auto;
-            max-width: 1280px;
+            #mobileMenuWrapper {
+                text-align: right;
+
+                display: block;
+                grid-column: 2;
+                background-color: $headerBackgroundColor;
+                border-radius: 0.25rem;
+
+                img {
+
+
+                    padding: 0 1rem;
+                    cursor: pointer;
+                    width: 50px;
+                    height: auto;
+                }
+
+                div#mobileMenu {
+
+                    display: none;
+                    cursor: pointer;
+                    margin: 0;
+                    padding: 1rem;
+
+                    background-color: $headerBackgroundColor;
+                    border-radius: 0.25rem;
+
+
+
+
+
+                    ul {
+                        margin: 0;
+                        padding: 0;
+
+
+
+                        li {
+                            margin: 0;
+                            padding: 0;
+
+
+                            display: block;
+                            list-style-type: none;
+                            font-size: 1.5rem;
+
+                            a {
+                                text-decoration: none;
+                                color: $accent1;
+                            }
+
+                            a:hover {
+                                background-color: #22334d;
+                                border-radius: 0.25rem;
+                                cursor: pointer;
+                            }
+
+                            a:active {
+                                color: #cfb06c;
+                            }
+
+                        }
+                    }
+
+
+                }
+            }
 
 
 
@@ -20,10 +88,23 @@ header {
 
         }
 
+    }
+
+    @media only screen and (min-width: 1081px) {
+        div#mobileMenuWrapper {
+            display: none;
+        }
+    }
+
+    div#headerContent {
+        @media only screen and (min-width: 1280px) {
+            margin: auto;
+            max-width: 1280px;
+        }
+
         text-align: left;
         margin: 0;
-        padding: 2rem;
-
+        padding: 2rem 1rem 2rem 2rem;
         border-radius: 0 0 0.5rem 0.5rem;
 
         h1 {
@@ -38,7 +119,6 @@ header {
         nav {
             ul {
                 padding: 0;
-
                 list-style-type: none;
 
                 li {
@@ -61,13 +141,7 @@ header {
                         color: #cfb06c;
                     }
                 }
-
-
             }
         }
-
     }
-
-
-
 }

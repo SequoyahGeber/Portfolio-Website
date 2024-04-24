@@ -1,26 +1,28 @@
+<h2>Uploaded Files</h2>
 <ul id="fileList"></ul>
-
 <script>
-  fetch("/readFiles")
-    .then((response) => response.json())
-    .then((files) => {
-      const fileList = document.getElementById("fileList");
-      files.forEach((file) => {
-        const book = document.createElement("li");
-        const selectButton = document.createElement("button");
+  function readFiles() {
+    fetch("/readFiles")
+      .then((response) => response.json())
+      .then((files) => {
+        const fileList = document.getElementById("fileList");
+        files.forEach((file) => {
+          const book = document.createElement("li");
+          const selectButton = document.createElement("button");
 
-        book.textContent = file;
-        selectButton.id = file;
-        selectButton.textContent = "Select";
-        selectButton.addEventListener("click", (event) => {
-          event.preventDefault();
-          bookPath = event.target.id;
-          renderBook(bookPath);
+          book.textContent = file;
+          selectButton.id = file;
+          selectButton.textContent = "Select";
+          selectButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            bookPath = event.target.id;
+            renderBook(bookPath);
+          });
+          fileList.appendChild(book);
+
+          fileList.appendChild(selectButton);
         });
-        book.appendChild(selectButton);
-
-        fileList.appendChild(book);
-      });
-    })
-    .catch((error) => console.error("Error fetching files:", error));
+      })
+      .catch((error) => console.error("Error fetching files:", error));
+  }
 </script>

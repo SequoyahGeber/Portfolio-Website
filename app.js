@@ -3,18 +3,19 @@ const app = express();
 const cors = require("cors");
 const path = require("path");
 const fs = require("fs");
-
+const cookieParser = require("cookie-parser");
 const sassMiddleware = require("node-sass-middleware");
 const { MongoClient, ObjectId } = require("mongodb");
 const multer = require("multer");
 
+// Enable Cross-Origin Resource Sharing (CORS)
 app.use(cors());
 
-// Set the views directory
+// Set the view engine to EJS and specify the views directory
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// Compile Sass/SCSS files
+// Compile Sass/SCSS files and serve them as static CSS files
 app.use(
   sassMiddleware({
     src: path.join(__dirname, "public", "styles"),
@@ -28,18 +29,29 @@ app.use(
 // Serve static files from the 'public' directory
 app.use(express.static("public"));
 
+// Define where uploaded file name will be stored temporarily
+let uploadedFileName;
+
+// Parse JSON bodies of incoming requests
 app.use(express.json());
 
+// Parse cookies
+app.use(cookieParser());
+
+// Multer storage configuration for file uploads
 const storage = multer.diskStorage({
   destination: "public/books/",
   filename: function (req, file, callback) {
     callback(null, file.originalname);
+    console.log(file.originalname);
+    uploadedFileName = file.originalname; // Store the uploaded file name
   },
 });
 
+// Initialize multer with the storage configuration
 const upload = multer({ storage: storage });
 
-// Define routes
+// Define routes for various pages
 app.get("/", (req, res) => {
   res.render("index");
 });
@@ -53,70 +65,122 @@ app.get("/portfolio", (req, res) => {
   res.render("portfolio");
 });
 app.get("/manage", (req, res) => {
+  const loggedIn = req.cookies.loggedin;
+  if (loggedIn !== "true") {
+    return res.redirect("/verify");
+  }
+
   res.render("manage");
 });
+let postId;
 app.get("/update", (req, res) => {
-  let postId = req.query.postId;
-  console.log(postId);
+  const loggedIn = req.cookies.loggedin;
+  if (loggedIn !== "true") {
+    return res.redirect("/verify");
+  }
+  if (req.query.postId) {
+    postId = req.query.postId;
+  }
+
   res.render("update", { postId: postId });
 });
 
+app.get("/verify", (req, res) => {
+  res.render("verification");
+});
+
+// Render the 'epub' page
 app.get("/epub", function (req, res) {
-  // let fileName = 'test.epub';
-  // let epubURL = `https://sequoyahgeber.com/books/${fileName}`;
   res.render("epub");
 });
 
-// app.get("/view-epub", (req, res) => {
-//   const epubURL = req.query.epubURL;
-//   res.render("view-epub", { epubURL: epubURL });
-// });
-
+// Handle file upload
 app.post("/upload", upload.single("epubFile"), (req, res) => {
-  res.send("File uploaded successfully");
+  // Set a cookie with the uploaded file name
+  res.cookie("fileName", uploadedFileName, {
+    maxAge: 360000,
+  });
+  res.redirect("/epub"); // Redirect to the 'epub' page
 });
 
+// Endpoint to read files from directory
 app.get("/readFiles", (req, res) => {
+  console.log("Reading Files");
   const directoryPath = "public/books";
+  const cookies = req.cookies;
+  console.log(cookies);
+
+  let fileNameFromCookie = null;
+  // Extract uploaded file name from cookie
+  for (const cookieName in cookies) {
+    if (cookieName.startsWith("fileName")) {
+      fileNameFromCookie = cookies[cookieName];
+      break;
+    }
+  }
+
+  if (!fileNameFromCookie) {
+    return res.status(400).send("Please upload a file first.");
+  }
+
+  const decodedFileName = decodeURIComponent(fileNameFromCookie);
+
+  // Read files from directory and filter by file name
   fs.readdir(directoryPath, (err, files) => {
     if (err) {
       console.error("Error reading directory:", err);
-      res.status(500).send("Error reading directory");
-    } else {
-      res.json(files);
+      return res.status(500).send("Error reading directory");
     }
+
+    if (!decodedFileName) {
+      return res.status(400).send("Invalid file name in the cookie.");
+    }
+
+    const filteredFiles = files.filter((file) => file === decodedFileName);
+
+    res.json(filteredFiles);
   });
 });
 
-const uri = "mongodb://172.17.0.2:27017";
-const dbName = "blogs";
 const collectionName = "posts";
 
 // Connect to MongoDB
 async function connectToDatabase() {
-  const client = new MongoClient(uri);
+  const client = new MongoClient("mongodb://172.17.0.2:27017");
   try {
     await client.connect();
     console.log("Connected successfully to MongoDB");
-    return client.db(dbName);
+    return client.db("blogs");
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
     throw error;
   }
 }
-// Get Posts
+async function connectToAccountsDatabase() {
+  const client = new MongoClient("mongodb://172.17.0.2:27017");
+  try {
+    await client.connect();
+    console.log("Connected successfully to MongoDB");
+    return client.db("accounts");
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error);
+    throw error;
+  }
+}
+
+// Get all blog posts
 app.get("/posts", async (req, res) => {
   try {
     const db = await connectToDatabase();
     const posts = await db.collection(collectionName).find().toArray();
     res.json(posts);
   } catch (error) {
-    console.error("Error creating blog post:", error);
-    res.status(500).send("Error creating blog post");
+    console.error("Error retrieving blog posts:", error);
+    res.status(500).send("Error retrieving blog posts");
   }
 });
 
-// Create Post
+// Create a new blog post
 app.post("/createPost", async (req, res) => {
   try {
     const db = await connectToDatabase();
@@ -132,7 +196,7 @@ app.post("/createPost", async (req, res) => {
   }
 });
 
-// Delete Post
+// Delete a blog post
 app.post("/deletePost", async (req, res) => {
   try {
     const db = await connectToDatabase();
@@ -148,21 +212,79 @@ app.post("/deletePost", async (req, res) => {
   }
 });
 
-// Update Post
+// Update a blog post
 app.put("/updatePost", async (req, res) => {
   try {
     const db = await connectToDatabase();
     const { title, content, postId } = req.body;
     const postObjectId = new ObjectId(postId);
+    console.log("newPostId:", postId);
 
     await db
       .collection(collectionName)
-      .updateOne({ _id: ObjectId(postObjectId) }, { $set: { title, content } });
+      .updateOne({ _id: postObjectId }, { $set: { title, content } });
+
     console.log("Post updated:", postId);
     res.sendStatus(200);
   } catch (error) {
     console.error("Error updating post:", error);
     res.status(500).send("Error updating post");
+  }
+});
+let usersCollection = "users";
+// Login endpoint
+app.post("/login", async (req, res) => {
+  try {
+    const db = await connectToAccountsDatabase();
+    const { email, password } = req.body;
+
+    // Find user with provided email
+    const user = await db.collection(usersCollection).findOne({ email });
+
+    if (!user) {
+      return res.status(401).send("Invalid email or password");
+    }
+
+    // Compare password with the one stored in the database
+    if (user.password !== password) {
+      return res.status(401).send("Invalid email or password");
+    }
+
+    // Set a cookie indicating user is logged in
+    res.cookie("loggedin", true, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    });
+
+    res.sendStatus(200); // Login successful
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Login failed. Please try again.");
+  }
+});
+
+// Registration endpoint
+app.post("/register", async (req, res) => {
+  try {
+    const db = await connectToAccountsDatabase();
+    const { email, password } = req.body;
+
+    // Check if user with provided email already exists
+    const existingUser = await db
+      .collection(usersCollection)
+      .findOne({ email });
+
+    if (existingUser) {
+      return res.status(400).send("User already exists");
+    }
+
+    // Insert new user data into the database
+    await db.collection(usersCollection).insertOne({ email, password });
+
+    res.sendStatus(201); // Registration successful
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Registration failed. Please try again.");
   }
 });
 

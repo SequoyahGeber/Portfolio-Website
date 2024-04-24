@@ -4,27 +4,53 @@
   <title>Home</title>
   <link rel="stylesheet" href="/css/style.css" />
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
-  <!-- Include EPUB.js library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
 </head>
 
 <body>
   <header><%- include('partials/header') %></header>
-  <main>
-    <p>Welcome</p>
-    <div><%- include('partials/readFiles') %></div>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-      <input type="file" name="epubFile" />
-      <button type="submit">Upload</button>
-    </form>
+  <main id="epubMain">
+    <div id="contentWrapper">
+      <div id="uploadFilesDiv">
+        <form id="uploadForm" enctype="multipart/form-data">
+          <input type="file" id="fileInput" name="epubFile" />
+          <button type="submit">Upload</button>
+        </form>
+      </div>
+      <div id="readFilesDiv"><%- include('partials/readFiles') %></div>
+    </div>
 
-    <h2>Book Below</h2>
-
-    <%- include('partials/renderBook') %>
+    <div id="renderBookContainer"><%- include('partials/renderBook') %></div>
   </main>
   <footer><%- include('partials/footer') %></footer>
   <script>
-   
+    document
+      .getElementById("uploadForm")
+      .addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        var formData = new FormData(this); // Create FormData object to send the file
+        fetch("/upload", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => {
+            if (response.ok) {
+              console.log("File uploaded successfully!");
+              readFiles();
+            } else {
+              console.error("File upload failed:", response.statusText);
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      });
+
+    //Delete the cookie when the page gets refreshed
+    window.addEventListener("beforeunload", function () {
+      document.cookie =
+        "fileName=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      fetch;
+    });
   </script>
 </body>

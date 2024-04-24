@@ -6,13 +6,12 @@
     <title>Update Post</title>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
-
   </head>
   <body>
     <header><%- include('partials/header') %></header>
     <main>
       <h1>Update Post</h1>
-      <p>Post ID: <%= postId %></p>
+      <p>Post ID: <span id="postId"><%= postId %></span></p>
       <form>
         <label for="title">Title:</label>
         <input type="text" id="title" name="title" />
@@ -30,9 +29,10 @@
           event.preventDefault();
           const title = document.getElementById("title").value;
           const content = document.getElementById("content").value;
-
-          fetch("/update", {
-            method: "POST",
+          const postId = document.getElementById("postId").innerHTML;
+          console.log(postId);
+          fetch("/updatePost", {
+            method: "PUT",
             headers: {
               "Content-Type": "application/json",
             },
@@ -43,7 +43,7 @@
                 throw new Error("Network response was not ok");
                 return;
               }
-              window.location.reload();
+
               return response;
             })
             .catch((error) => {
