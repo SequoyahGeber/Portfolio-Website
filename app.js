@@ -64,6 +64,9 @@ app.get("/about", (req, res) => {
 app.get("/portfolio", (req, res) => {
   res.render("portfolio");
 });
+app.get("/learn", (req, res) => {
+  res.render("learn");
+});
 app.get("/manage", (req, res) => {
   const loggedIn = req.cookies.loggedin;
   if (loggedIn !== "true") {
@@ -101,6 +104,49 @@ app.post("/upload", upload.single("epubFile"), (req, res) => {
     maxAge: 360000,
   });
   res.redirect("/epub"); // Redirect to the 'epub' page
+});
+
+//Send japanese
+app.get("/kanji", (req, res) => {
+  const filePath = path.join(__dirname, "public", "japanese", "kanji.txt");
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading file:", err);
+      return res.status(500).send("Error reading file");
+    }
+    const dataArray = data.split("\n");
+    res.json(dataArray);
+  });
+});
+app.get("/hiraganaKatakana", (req, res) => {
+  const filePath = path.join(
+    __dirname,
+    "public",
+    "japanese",
+    "hiraganaKatakana.txt"
+  );
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading file:", err);
+      return res.status(500).send("Error reading file");
+    }
+    const dataArray = data.split("\n");
+    res.json(dataArray);
+  });
+});
+app.get("/english", (req, res) => {
+  const filePath = path.join(__dirname, "public", "japanese", "english.txt");
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading file:", err);
+      return res.status(500).send("Error reading file");
+    }
+    const dataArray = data.split("\n");
+    res.json(dataArray);
+  });
 });
 
 // Endpoint to read files from directory

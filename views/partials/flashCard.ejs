@@ -1,0 +1,32 @@
+<div id="flashCard" class="flashcard">
+  <div id="cardFront" class="card-side card-front">
+    <h3 id="title"></h3>
+    <button onclick="flipCard()">Flip</button>
+  </div>
+  <div id="cardBack" class="card-side card-back">
+    <p id="translation1"></p>
+    <p id="translation2"></p>
+    <button onclick="unflipCard()">Flip</button>
+  </div>
+</div>
+<script>
+  function flipCard() {
+    const cardFront = document.getElementById("cardFront");
+    const cardBack = document.getElementById("cardBack");
+
+    cardFront.style.transform = "rotateY(-180deg)";
+    cardBack.style.transform = "rotateY(0deg)";
+
+    // Show the back side
+    cardBack.style.display = "block";
+  }
+
+  // Function to unflip the card to the front side
+  function unflipCard() {
+    const cardFront = document.getElementById("cardFront");
+    const cardBack = document.getElementById("cardBack");
+
+    cardFront.style.transform = "rotateY(0deg)";
+    cardBack.style.transform = "rotateY(180deg)";
+  }
+</script>

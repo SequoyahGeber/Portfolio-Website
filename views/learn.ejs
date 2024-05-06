@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Blog</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+  </head>
+  <body id="learn">
+    <header><%- include('partials/header') %></header>
+    <main>
+      <div id="game"><%- include('partials/flashCard') %></div>
+      <button id="next" onclick="nextCard()">Next Card</button>
+    </main>
+    <footer><%- include('partials/footer') %></footer>
+  </body>
+  <script>
+    index = -1;
+    function nextCard() {
+      index++;
+      setCard(index);
+    }
+    function setCard(cardNumber) {
+      document.getElementById("title").innerHTML = kanjiArray[cardNumber];
+      document.getElementById("translation1").innerHTML =
+        hiraganaKatakanaArray[cardNumber];
+      document.getElementById("translation2").innerHTML =
+        englishArray[cardNumber];
+    }
+
+    let kanjiArray = [];
+    let hiraganaKatakanaArray = [];
+    let englishArray = [];
+
+    async function fetchDataAndShuffle() {
+      try {
+        const [kanjiResponse, hiraganaKatakanaResponse, englishResponse] =
+          await Promise.all([
+            fetch("/kanji").then((response) => response.json()),
+            fetch("/hiraganaKatakana").then((response) => response.json()),
+            fetch("/english").then((response) => response.json()),
+          ]);
+
+        kanjiArray = kanjiResponse;
+        hiraganaKatakanaArray = hiraganaKatakanaResponse;
+        englishArray = englishResponse;
+
+        const combinedArray = kanjiArray.map((_, index) => ({
+          element1: kanjiArray[index],
+          element2: hiraganaKatakanaArray[index],
+          element3: englishArray[index],
+        }));
+
+        for (let i = combinedArray.length - 1; i > 0; i--) {
+          const randomIndex = Math.floor(Math.random() * (i + 1));
+          [combinedArray[i], combinedArray[randomIndex]] = [
+            combinedArray[randomIndex],
+            combinedArray[i],
+          ];
+        }
+
+        const shuffledArray1 = combinedArray.map((item) => item.element1);
+        const shuffledArray2 = combinedArray.map((item) => item.element2);
+        const shuffledArray3 = combinedArray.map((item) => item.element3);
+
+        console.log("Shuffled Kanji Array:", shuffledArray1);
+        console.log("Shuffled Hiragana/Katakana Array:", shuffledArray2);
+        console.log("Shuffled English Array:", shuffledArray3);
+
+        kanjiArray = shuffledArray1;
+        hiraganaKatakanaArray = shuffledArray2;
+        englishArray = shuffledArray3;
+        nextCard();
+      } catch (error) {
+        console.error("Error fetching or shuffling data:", error);
+      }
+    }
+
+    fetchDataAndShuffle();
+  </script>
+</html>
