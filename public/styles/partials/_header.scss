@@ -107,7 +107,9 @@ header {
         padding: 2rem 1rem 2rem 2rem;
         border-radius: 0 0 0.5rem 0.5rem;
 
-        h1 {
+        h1, h1 a {
+            text-decoration: none;
+            color: black;
             margin: 0;
             padding: 0;
 
