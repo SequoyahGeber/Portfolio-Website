@@ -67,6 +67,12 @@ app.get("/portfolio", (req, res) => {
 app.get("/learn", (req, res) => {
   res.render("learn");
 });
+app.get("/learnKanji", (req, res) => {
+  res.render("learnKanji");
+});
+app.get("/learnGrammar", (req, res) => {
+  res.render("learnGrammar");
+});
 app.get("/manage", (req, res) => {
   const loggedIn = req.cookies.loggedin;
   if (loggedIn !== "true") {
@@ -109,6 +115,23 @@ app.post("/upload", upload.single("epubFile"), (req, res) => {
 //Send japanese
 app.get("/kanji", (req, res) => {
   const filePath = path.join(__dirname, "public", "japanese", "kanji.txt");
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading file:", err);
+      return res.status(500).send("Error reading file");
+    }
+    const dataArray = data.split("\n");
+    res.json(dataArray);
+  });
+});
+app.get("/grammar", (req, res) => {
+  const filePath = path.join(
+    __dirname,
+    "public",
+    "japanese",
+    "japaneseGrammar.txt"
+  );
 
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {

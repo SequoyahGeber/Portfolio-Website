@@ -222,12 +222,32 @@ main#epubMain {
 }
 
 body#learn {
+    main#learnGrammar {
+        #title {
+            font-size: 2rem !important;
+        }
+
+        p {
+            font-size: 1.5rem !important;
+        }
+
+    }
+
+
 
     #flashCard {
-        margin: auto;
+        margin: 1rem auto;
         width: 200px;
         height: 300px;
         perspective: 1000px;
+
+        div button {
+            margin: auto;
+            text-align: center;
+            position: relative;
+            top: 10px;
+
+        }
 
         .card-side {
             position: absolute;
@@ -246,9 +266,10 @@ body#learn {
 
                 h3 {
                     font-family: $japaneseFont;
-                    font-size: 4rem;
+                    font-size: 5rem;
                     font-weight: 300;
                     text-align: center;
+                    margin: 2rem 0;
                 }
             }
 
@@ -256,8 +277,14 @@ body#learn {
             &.card-back {
                 transform: rotateY(180deg);
                 display: block;
-                text-align: center;
+                text-align: left;
                 font-size: 2rem;
+
+                p {
+                    margin: 2rem 0;
+                    padding-left: .5rem;
+
+                }
 
                 #translation1 {
                     font-family: $japaneseFont;
@@ -265,4 +292,5 @@ body#learn {
             }
         }
     }
+
 }

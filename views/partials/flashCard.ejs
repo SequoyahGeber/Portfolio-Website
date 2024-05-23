@@ -2,11 +2,13 @@
   <div id="cardFront" class="card-side card-front">
     <h3 id="title"></h3>
     <button onclick="flipCard()">Flip</button>
+    <button id="next" onclick="nextCard()">Next Card</button>
   </div>
   <div id="cardBack" class="card-side card-back">
     <p id="translation1"></p>
     <p id="translation2"></p>
     <button onclick="unflipCard()">Flip</button>
+    <button id="next" onclick="nextCard(), unflipCard()">Next Card</button>
   </div>
 </div>
 <script>
