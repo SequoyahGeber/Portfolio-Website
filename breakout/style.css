@@ -1,0 +1,9 @@
+body {
+  text-align: center;
+  color: black;
+}
+
+#board {
+  background-color: black;
+  border: 5px solid gold;
+}
